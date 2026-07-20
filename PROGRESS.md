@@ -326,11 +326,17 @@
 > - ✅ P8 PCB: 原理图→布局→布线→DRC→Gerber, 嘉立创已下单
 > - ✅ GitHub: 仓库已创建 + 5次提交推送 (README含BOM/踩坑/学习历程)
 > - ✅ ThingSpeak: 已注册, API Key + WiFi 配置已写入本地固件
-> - 🔄 ESP8266 模块测试: 接线完成, CH340 驱动异常需重启电脑
+> - ✅ ESP8266 模块测试: 全部 AT 指令通过, HTTP 数据上云 200 OK (2026/07/20)
 > - ⬜ P9: 等板到货 → 焊接 → 上电联调 → 拍照补 README
 >
 > **下次第一件事：**
-> 1. 重启电脑 → CH340 驱动恢复 → 串口助手连接 ESP8266（115200bps）
-> 2. 发 AT 指令确认模块正常 → AT+CWMODE=1 → AT+CWLAP 扫描 WiFi
-> 3. 等 PCB 到货后焊接、联调
+> 等 PCB 到货后 → 焊接 27 个元件 → 上电 → 烧录固件 → 整机联调
+
+### 2026-07-20（晚）— ESP8266 模块测试 ✅
+
+- [x] CH340 供电坑：板载 3.3V (~100mA) 带不动 ESP8266 (>300mA 峰值)，灯闪掉线
+- [x] 解决：Blue Pill 3.3V (AMS1117 800mA) 独立供电，CH340 只接 TX/RX/GND
+- [x] AT 基础通信、WiFi 扫描、WiFi 连接 全部 OK
+- [x] HTTP GET 上送 ThingSpeak：HTTP/1.0 → Status 200 OK → Field1=25 验证通过
+- [x] ThingSpeak 网站确认数据点写入成功
 >

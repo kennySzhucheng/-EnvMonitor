@@ -24,10 +24,8 @@ void SensorTask_Run(void *pvParameters)
         float temperature = 0, humidity = 0, light = 0, distance = 0;
         uint8_t wifi_ok = 0;
 
-        /* --- DHT22: 临界区保护（关全局中断 ~2ms） --- */
-        taskENTER_CRITICAL();
+        /* --- DHT22: 内部已关中断保护微秒级时序（~2ms），不需额外临界区 --- */
         uint8_t dht_result = DHT22_Read(&temperature, &humidity);
-        taskEXIT_CRITICAL();
         if (dht_result != DHT22_OK) {
             temperature = -999;   /* 标记无效，不更新 */
             humidity    = -999;

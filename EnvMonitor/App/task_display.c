@@ -27,7 +27,9 @@ static void HandleKeyEvent(uint8_t msg)
                 currentPage = (currentPage + 1) % PAGE_COUNT;
             } else if (btn_id == BTN_CONFIRM) {
                 if (currentPage == PAGE_WIFI) {
+                    xSemaphoreTakeRecursive(UART_Mutex, pdMS_TO_TICKS(200));
                     ESP8266_ConnectWiFi();
+                    xSemaphoreGiveRecursive(UART_Mutex);
                 }
             } else if (btn_id == BTN_BACK) {
                 currentPage = PAGE_MAIN;

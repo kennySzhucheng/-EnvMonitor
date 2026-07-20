@@ -61,7 +61,8 @@ uint8_t DHT22_Read(float *temperature, float *humidity)
     /* --- 1. 主机发送启动信号: 拉低 >1ms --- */
     DHT22_SetOutput();
     HAL_GPIO_WritePin(DHT22_PORT, DHT22_PIN, GPIO_PIN_RESET);
-    HAL_Delay(2);   /* 拉低 2ms（安全余量） */
+    /* ⚠️ 不能用 HAL_Delay() —— SysTick 中断已关，会死锁！改用纯忙等 */
+    DHT22_DELAY_US(2000);  /* 拉低 2ms（安全余量） */
     HAL_GPIO_WritePin(DHT22_PORT, DHT22_PIN, GPIO_PIN_SET);
     DHT22_DELAY_US(30);  /* 拉高 30us 后释放 */
 
