@@ -1,0 +1,57 @@
+# ==================== Keil MDK 编译产物 ====================
+*.uvguix.*
+*.uvoptx
+Listings/
+Objects/
+DebugConfig/
+RTE/
+JLinkLog.txt
+*.scvd
+*.crf
+*.dep
+*.iex
+*.htm
+*.lnp
+*.plg
+*.tra
+*.Administrator
+
+# 编译中间文件
+*.o
+*.d
+*.elf
+*.hex
+*.bin
+*.axf
+*.map
+*.lst
+
+# ==================== KiCad ====================
+*.bak
+*.lck
+*~
+~*
+*.kicad_prl
+.history/
+analysis/
+__pycache__/
+_autosave-*
+
+# ==================== Python ====================
+__pycache__/
+*.pyc
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==================== 密钥文件（如有） ====================
+secrets.h
+
+# ==================== 临时/备份 ====================
+*.tmp
+backup_*/
+
+# ==================== Claude Code ====================
+.claude/
