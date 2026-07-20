@@ -134,7 +134,7 @@
 | ESP8266-01S WiFi | 1 |
 | 5V 有源蜂鸣器模块 | 1 |
 
-> 💰 全部物料预算约 76 元。完整清单见 `hardware/pcb/EnvMonitor/BOM_EnvMonitor.md`
+> 💰 全部物料实际花费约 **90 元**（含 PCB 打样 20 元 + 模块 51 元 + 分立元件 13 元 + 工具 5 元）。完整清单见 `hardware/pcb/EnvMonitor/BOM_EnvMonitor.md`
 
 ---
 
