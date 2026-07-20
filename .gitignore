@@ -53,6 +53,9 @@ secrets.h
 *.tmp
 backup_*/
 
+# 旧版 Gerber（已弃用）
+**/EnvMonitor钻孔板/
+
 # ==================== Claude Code ====================
 .claude/
 
