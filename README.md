@@ -2,7 +2,7 @@
 
 > STM32F103C8T6 + FreeRTOS + ESP8266 桌面环境监测终端 | 练习项目
 
-一个从零开始搭建的嵌入式 IoT 项目：从面包板原型 → 裸机固件 → FreeRTOS 重构 → KiCad 画板 → 嘉立创打样，走完嵌入式产品全流程。
+一个从零开始搭建的嵌入式 IoT 项目：裸机固件 → FreeRTOS 重构 → KiCad 画板 → 嘉立创打样，走完嵌入式产品全流程。
 
 ---
 
@@ -215,6 +215,31 @@ EnvMonitor/
 | P7 | FreeRTOS 6 任务重构 | ✅ |
 | P8 | KiCad 原理图 → 布局 → 布线 → DRC → Gerber | ✅ |
 | P9 | 嘉立创打样 → 焊接 → 联调 → 发布 | 🔄 |
+
+### 🔥 关键问题与解决
+
+> 完整记录见 [`docs/开发日志.md`](docs/开发日志.md)
+
+| # | 问题 | 根因 | 解决 |
+|---|------|------|------|
+| 1 | Keil 编译 `cannot open oled.h` | **循环包含**：`main.h` ↔ 驱动 `.h` 互相 include | 驱动 `.h` 改用 `stm32f1xx_hal.h`，`.c` 先 include `main.h` |
+| 2 | FreeRTOS 链接 4 个 Undefined | 调试钩子未实现，V10.x 默认开启 | 关闭 MallocFailedHook / StackOverflowHook / StaticAllocation |
+| 3 | KiCad 标签放空白处 | 标签必须附着在导线上，否则 = 独立网络 | 标签放在导线段上，高亮确认后放下 |
+| 4 | 按键消抖电路出错 | R/C/SW/MCU 未在同一节点，MCU 脚孤悬 | 四者交汇一点，SW 另一脚 → GND |
+| 5 | 14 个元件 PCB 导入失败 | 封装名缺脚距后缀（如 `_P2.54mm_Vertical`） | 编辑 `.kicad_sch` 批量替换封装名 |
+| 6 | 蜂鸣器方案紧急变更 | 实物 3 脚模块 vs 原理图 2 脚+NPN 驱动 | 换 3 脚排针，删 Q1/R13/R14/D5，MCU 直连 |
+| 7 | GND 铺铜 DRC 仍报未连接 | 铺铜只创建轮廓，没填充 | 按 **B** 键填充所有区域 |
+| 8 | Keil 缺 `configUSE_16_BIT_TICKS` | FreeRTOS V10.x 新增必选宏 | `FreeRTOSConfig.h` 补定义 |
+
+### 💡 设计决策
+
+| 决策 | 选择 | 理由 |
+|------|------|------|
+| RTOS | FreeRTOS 原生 API | 不依赖 CMSIS-RTOS 封装，社区资源多 |
+| WiFi | ESP8266 AT 指令 + HTTP GET | ThingSpeak 原生支持，无需 MQTT broker |
+| PCB | 全插件 THT + 模块化 | 新手可焊，Blue Pill 已有电路不重复画 |
+| EDA | KiCad 10.0 | 开源免费，S-expression 格式透明 |
+| I2C | OLED + BH1750 同总线 | 地址不同(0x3C/0x46)，不冲突，省 GPIO |
 
 ---
 
